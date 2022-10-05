@@ -15,6 +15,7 @@ class Blog(models.Model):
     is_published = models.BooleanField(default=True, verbose_name='Публикация')
     category = models.ForeignKey(to='Category', on_delete=models.PROTECT, verbose_name='Категория', null=True)
 
+
     def __str__(self):
         return self.title
 
