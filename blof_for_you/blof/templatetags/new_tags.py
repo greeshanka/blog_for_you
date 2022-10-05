@@ -3,7 +3,7 @@ from django.db.models import Count, F
 
 from blof.models import Category
 
-register = template.Library()  #  Регистрация нашего тега
+register = template.Library()  # Регистрация нашего тега
 
 
 @register.simple_tag
