@@ -9,7 +9,6 @@ def index(request):
     categories = Category.objects.all()
     context = {
         'news': news,
-        'title': 'Список новостей',
         'categories': categories,
     }
     return render(request, template_name='blof/index.html', context=context)
