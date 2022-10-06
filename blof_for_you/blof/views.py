@@ -1,6 +1,7 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 
 from .models import Blog, Category
+from .forms import BlogForm
 
 
 def index(request):
@@ -28,3 +29,14 @@ def view_news(request, news_id):
         'news_item': news_item,
     }
     return render(request, template_name='blof/news_item.html', context=context)
+
+
+def add_news(request):
+    if request.method == 'POST':
+        form = BlogForm(request.POST)
+        if form.is_valid():
+            news = Blog.objects.create(**form.cleaned_data)
+            return redirect(news)
+    else:
+        form = BlogForm()
+    return render(request, template_name='blof/add_news.html', context={'form': form})
