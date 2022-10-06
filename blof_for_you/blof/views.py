@@ -20,14 +20,19 @@ class HomeBlog(ListView):
         return Blog.objects.filter(is_published=True).select_related('category')
 
 
-def list_category(request, category_id):
-    news = Blog.objects.filter(category_id=category_id)
-    category = Category.objects.get(pk=category_id)
-    context = {
-        'news': news,
-        'category': category,
-    }
-    return render(request, template_name='blof/category.html', context=context)
+class CategoryListBlog(ListView):
+    model = Blog
+    context_object_name = 'news'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        """Метод объединяет(сливает вместе) данные контекста всех родительских классов с данными текущего класса """
+        context = super().get_context_data(**kwargs)
+        context['title'] = Category.objects.get(pk=self.kwargs['category_id'])
+        return context
+
+    def get_queryset(self):
+        """Метод для фильтрации данных"""
+        return Blog.objects.filter(category_id=self.kwargs['category_id'], is_published=True).select_related('category')
 
 
 def view_news(request, news_id):
