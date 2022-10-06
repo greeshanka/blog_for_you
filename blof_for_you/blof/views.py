@@ -1,15 +1,23 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.views.generic import ListView
 
 from .models import Blog, Category
 from .forms import BlogForm
 
 
-def index(request):
-    news = Blog.objects.all()
-    context = {
-        'news': news,
-    }
-    return render(request, template_name='blof/index.html', context=context)
+class HomeBlog(ListView):
+    model = Blog
+    context_object_name = 'news'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        """Метод объединяет(сливает вместе) данные контекста всех родительских классов с данными текущего класса """
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Главная страница'
+        return context
+
+    def get_queryset(self):
+        """Метод для фильтрации данных. Корректировка запроса под получение данных"""
+        return Blog.objects.filter(is_published=True).select_related('category')
 
 
 def list_category(request, category_id):
