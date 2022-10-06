@@ -23,7 +23,6 @@ def list_category(request, category_id):
 
 
 def view_news(request, news_id):
-    # news_item = Blog.objects.get(pk=news_id)
     news_item = get_object_or_404(Blog, pk=news_id)
     context = {
         'news_item': news_item,
@@ -35,7 +34,7 @@ def add_news(request):
     if request.method == 'POST':
         form = BlogForm(request.POST)
         if form.is_valid():
-            news = Blog.objects.create(**form.cleaned_data)
+            news = form.save()
             return redirect(news)
     else:
         form = BlogForm()

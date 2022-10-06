@@ -14,7 +14,7 @@ class Blog(models.Model):
         verbose_name='Изменено')  # атрибут auto_now означает, что время каждого сохранения записи будут перезаписываться
     photo = models.ImageField(upload_to='photos/%Y/%m/%d/', verbose_name='Фото', blank=True)
     is_published = models.BooleanField(default=True, verbose_name='Публикация')
-    category = models.ForeignKey(to='Category', on_delete=models.PROTECT, verbose_name='Категория', null=True)
+    category = models.ForeignKey(to='Category', on_delete=models.PROTECT, verbose_name='Категория')
 
     def get_absolute_url(self):
         return reverse_lazy('view_news', kwargs={'news_id': self.pk})
