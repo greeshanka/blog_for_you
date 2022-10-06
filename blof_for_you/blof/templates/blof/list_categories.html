@@ -1,15 +1,6 @@
-{% load new_tags %}
-
-
-{% comment %}
 <div class="list-group">
-    {%  get_categories as categories %}
     {% for item in categories %}
     <a href="{{ item.get_absolute_url }}"
        class="list-group-item list-group-item-action list-group-item-primary">{{ item.title }}</a>
     {% endfor %}
 </div>
-{% endcomment %}
-
-
-{% show_categories %}

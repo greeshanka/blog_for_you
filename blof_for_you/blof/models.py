@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse_lazy
 
 
 class Blog(models.Model):
@@ -15,6 +16,9 @@ class Blog(models.Model):
     is_published = models.BooleanField(default=True, verbose_name='Публикация')
     category = models.ForeignKey(to='Category', on_delete=models.PROTECT, verbose_name='Категория', null=True)
 
+    def get_absolute_url(self):
+        return reverse_lazy('view_news', kwargs={'news_id': self.pk})
+
     def __str__(self):
         return self.title
 
@@ -27,6 +31,11 @@ class Blog(models.Model):
 class Category(models.Model):
     title = models.CharField(max_length=100, db_index=True,
                              verbose_name='Название категории')  # db_index - индексирует это поле, делает это поле более быстрое для поиска
+
+    def get_absolute_url(self):
+        return reverse_lazy('list_category',
+                            kwargs={
+                                'category_id': self.pk})  # Первым аргументом мы передаём название маршрута, вторым необходимый параметр для построения данного маршрута
 
     def __str__(self):
         return self.title
