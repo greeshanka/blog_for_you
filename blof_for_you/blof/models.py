@@ -5,7 +5,7 @@ from django.urls import reverse_lazy
 class Blog(models.Model):
     title = models.CharField(max_length=100, verbose_name='Наименование')
     content = models.TextField(blank=True,
-                               verbose_name='Контент')  # атрибут blank означает, что это поле не обязательно к заполнению
+                               verbose_name='Контент')  # атрибут blank означает, что это поле необязательно к заполнению
     created_at = models.DateTimeField(
         auto_now_add=True,
         verbose_name='Создано')  # атрибут auto_now_add означает, что время будет сохранено единожды в момент создания
@@ -15,6 +15,7 @@ class Blog(models.Model):
     photo = models.ImageField(upload_to='photos/%Y/%m/%d/', verbose_name='Фото', blank=True)
     is_published = models.BooleanField(default=True, verbose_name='Публикация')
     category = models.ForeignKey(to='Category', on_delete=models.PROTECT, verbose_name='Категория')
+    views = models.IntegerField(default=0)
 
     def get_absolute_url(self):
         return reverse_lazy('view_news', kwargs={'pk': self.pk})
