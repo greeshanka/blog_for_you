@@ -38,7 +38,6 @@ class CategoryListBlog(ListView):
 
 class ViewNews(DetailView):
     model = Blog
-    # pk_url_kwarg = 'news_id'
     context_object_name = 'news_item'  # Дефолтное название объекта
 
 
