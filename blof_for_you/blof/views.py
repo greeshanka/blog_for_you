@@ -8,6 +8,7 @@ from .forms import BlogForm
 class HomeBlog(ListView):
     model = Blog
     context_object_name = 'news'
+    paginate_by = 4
 
     def get_context_data(self, *, object_list=None, **kwargs):
         """Метод объединяет(сливает вместе) данные контекста всех родительских классов с данными текущего класса """
@@ -24,6 +25,7 @@ class CategoryListBlog(ListView):
     model = Blog
     context_object_name = 'news'  # Деволтное название объекта
     allow_empty = False  # Запрещаем показ пустых списков
+    paginate_by = 4
 
     def get_context_data(self, *, object_list=None, **kwargs):
         """Метод объединяет(сливает вместе) данные контекста всех родительских классов с данными текущего класса """
@@ -44,3 +46,4 @@ class ViewNews(DetailView):
 class CreateNews(CreateView):
     form_class = BlogForm
     template_name = 'blof/add_news.html'
+
