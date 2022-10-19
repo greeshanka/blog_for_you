@@ -1,15 +1,15 @@
 from django.contrib import messages
+from django.contrib.auth import login, logout
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, CreateView
-from django.contrib.auth.forms import UserCreationForm
 
-from .models import Blog, Category
-from .forms import BlogForm
+from .models import Category
+from .forms import *
 
 
 def register(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = UserRegisterForm(request.POST)
         if form.is_valid():
             form.save()
             messages.success(request, 'Gooooood!')
@@ -18,21 +18,25 @@ def register(request):
             messages.error(request, 'WTF?!')
 
     else:
-        form = UserCreationForm()
+        form = UserRegisterForm()
     return render(request, 'blof/register.html', context={'form': form})
 
 
-def login(request):
-    # if request.method == "POST":
-    #     form = UserLoginForm(data=request.POST)
-    #     if form.is_valid():
-    #         user = form.get_user()
-    #         login(request, user)
-    #         return redirect("home")
-    # else:
-    #     form = UserLoginForm()
-    return render(request, 'blof/login.html')
+def user_login(request):
+    if request.method == "POST":
+        form = UserLoginForm(data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect("home")
+    else:
+        form = UserLoginForm()
+    return render(request, 'blof/login.html', context={'form': form})
 
+
+def user_logout(request):
+    logout(request)
+    return redirect('home')
 
 
 class HomeBlog(ListView):
