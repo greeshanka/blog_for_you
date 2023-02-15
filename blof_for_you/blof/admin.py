@@ -5,7 +5,7 @@ from ckeditor_uploader.widgets import CKEditorUploadingWidget
 
 from .models import Blog, Category
 
-#fdfsd
+#fsdfsdfsdfsdf
 class BlogAdminForm(forms.ModelForm):
     content = forms.CharField(widget=CKEditorUploadingWidget())
 
